@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Aviator Game</title>
+  <style>
+    body { text-align: center; font-family: sans-serif; background: #111; color: white; }
+    .plane { font-size: 50px; margin-top: 30px; }
+    button { padding: 10px 20px; font-size: 20px; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>✈️ Aviator Game</h1>
+  <div class="plane" id="multiplier">1.00x</div>
+  <button onclick="cashout()">💸 Cash Out</button>
+  <p id="status"></p>
+
+  <script>
+    let multiplier = 1.00;
+    let crashed = false;
+    const crashPoint = (Math.random() * 5 + 1).toFixed(2); // 1.00x - 6.00x
+
+    const interval = setInterval(() => {
+      if (crashed) return;
+      multiplier = (multiplier + 0.1).toFixed(2);
+      document.getElementById("multiplier").innerText = multiplier + "x";
+
+      if (parseFloat(multiplier) >= crashPoint) {
+        crashed = true;
+        document.getElementById("status").innerText = "💥 CRASHED at " + crashPoint + "x!";
+        clearInterval(interval);
+      }
+    }, 1000);
+
+    function cashout() {
+      if (!crashed) {
+        crashed = true;
+        document.getElementById("status").innerText = "✅ Cashed out at " + multiplier + "x!";
+        clearInterval(interval);
+      }
+    }
+  </script>
+</body>
+</html>
